@@ -11,6 +11,7 @@ class SurefireReportListener(folder:String) extends TestsListener {
 	/** called for each class or equivalent grouping */
 	def startGroup(name: String) {
 		val suite = TestSuite(name)
+		suites += (suite.clazz -> suite)
 		System.out.println("startGroup: " + suite.clazz)
 	}
 	/** called for each test method or equivalent */
