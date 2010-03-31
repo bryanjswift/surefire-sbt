@@ -4,12 +4,9 @@ import java.io.File
 import sbt._
 
 trait SurefireTestsProject extends DefaultProject {
-
-	def surefireOutputDirectory =
-		outputPath.asFile.getCanonicalPath + File.pathSeparator
-
+	def surefireOutputPath = outputPath / "surefire-reports"
 	override def testListeners = {
-		val surefireReportListener = new SurefireReportListener(surefireOutputDirectory)
+		val surefireReportListener = new SurefireReportListener(surefireOutputPath.asFile)
 		(surefireReportListener :: Nil) ++ super.testListeners
 	}
 }
