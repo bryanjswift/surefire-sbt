@@ -27,5 +27,4 @@ trait SurefireTestsProject extends DefaultProject {
 		path.listFiles.foreach(f => if (f.isDirectory) deleteDirectory(f) else f.delete)
 		path.delete
 	}
-	// make report cleaning happen before test execution
 }
