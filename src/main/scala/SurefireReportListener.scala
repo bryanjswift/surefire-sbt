@@ -7,8 +7,6 @@ import sbt._
 import scala.xml.{Null,Text,UnprefixedAttribute => Attribute}
 
 class SurefireReportListener(parentFolder:File) extends TestsListener {
-	if (parentFolder.exists) { SurefireReportListener.deleteDirectory(parentFolder) }
-	parentFolder.mkdir
 	private var suites = Map[String,TestSuite]()
 	/** called for each class or equivalent grouping */
 	def startGroup(name: String) {
@@ -46,10 +44,6 @@ class SurefireReportListener(parentFolder:File) extends TestsListener {
 }
 
 object SurefireReportListener {
-	def deleteDirectory(path:java.io.File):Boolean = {
-		path.listFiles.foreach(f => if (f.isDirectory) deleteDirectory(f) else f.delete)
-		path.delete
-	}
 	def properties = {
 		import scala.collection.jcl.Conversions.convertSet
 		val properties = System.getProperties
