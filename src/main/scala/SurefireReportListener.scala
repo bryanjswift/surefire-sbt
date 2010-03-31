@@ -4,6 +4,7 @@ import java.io.File
 import java.util.Calendar
 import org.scalatools.testing.{Event,Result => TestingResult}
 import sbt._
+import scala.xml.{Null,UnprefixedAttribute => Attribute}
 
 class SurefireReportListener(folder:String) extends TestsListener {
 	val parentFolder = new File(folder)
@@ -63,10 +64,25 @@ class TestSuite(
 				false
 		}
 	override def hashCode = (41 * startTime.hashCode) + clazz.hashCode
+	def xml = {
+		<testsuite>
+			{TestSuite.properties}
+		</testsuite> % (new Attribute("failures",testFailures.toString, new Attribute("errors",testErrors.toString,
+										new Attribute("skipped",testSkips.toString, new Attribute("tests",testsRun.toString,
+										new Attribute("name",clazz,Null))))))
+	}
 }
 
 object TestSuite {
 	def apply(clazz:String, testEvents:Set[Event], startTime:Calendar) =
 		new TestSuite(clazz, testEvents, startTime)
 	def apply(clazz:String) = new TestSuite(clazz, Set[Event](), Calendar.getInstance)
+	private def properties = {
+		import scala.collection.jcl.Conversions.convertSet
+		val properties = System.getProperties
+		val keys = convertSet(properties.keySet)
+		<properties>
+			{for (key <- keys) yield <property /> % new Attribute("name", key.toString, new Attribute("value", properties.getProperty(key.toString), Null))}
+		</properties>
+	}
 }
