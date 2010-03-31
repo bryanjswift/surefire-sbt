@@ -33,7 +33,7 @@ class TestSuite(
 			{for (test <- testEvents) yield TestSuite.event2xml(test)}
 		</testsuite> % (new Attribute("failures",testFailures.toString, new Attribute("errors",testErrors.toString,
 										new Attribute("skipped",testSkips.toString, new Attribute("tests",testsRun.toString,
-										new Attribute("name",clazz,Null))))))
+										new Attribute("name",clazz, new Attribute("time",elapsed.toString,Null)))))))
 	}
 }
 
