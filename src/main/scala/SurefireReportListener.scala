@@ -38,9 +38,11 @@ class SurefireReportListener(parentFolder:File) extends TestsListener {
 		writer.close
 	}
 	/** called once, at beginning. */
-  def doInit { }
+	def doInit {
+		if (!parentFolder.exists) parentFolder.mkdir
+	}
   /** called once, at end. */
-  def doComplete(finalResult: Result.Value) { }
+	def doComplete(finalResult: Result.Value) { }
 }
 
 object SurefireReportListener {
