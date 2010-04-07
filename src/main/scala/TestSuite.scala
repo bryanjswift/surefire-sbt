@@ -6,11 +6,7 @@ import org.scalatools.testing.{Event,Result => TestingResult}
 import sbt._
 import scala.xml.{Null,Text,UnprefixedAttribute => Attribute}
 
-class TestSuite(
-	val clazz:String,
-	val testEvents:Set[Event],
-	val startTime:Calendar
-) {
+class TestSuite(val clazz:String, val testEvents:Set[Event], val startTime:Calendar) {
 	lazy val testsRun = testEvents.filter(_.result != TestingResult.Skipped).size
 	lazy val testFailures = testEvents.filter(_.result == TestingResult.Failure).size
 	lazy val testErrors = testEvents.filter(_.result == TestingResult.Error).size
